@@ -5,5 +5,5 @@ module.exports = () => {
 
     app.use(bodyParser.json({extended: false}));
     return app;
-}
+};
 
