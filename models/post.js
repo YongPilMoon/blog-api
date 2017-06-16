@@ -7,7 +7,7 @@ const Post = sequelize.define('post', {
     },
     content: {
         type: Sequelize.STRING,
-        field: 'title'
+        field: 'content'
     }
 }, {
     freezeTableName: true
