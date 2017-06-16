@@ -13,12 +13,22 @@ router.route('/')
         createPost(title, content);
     });
 
+router.route('/:id')
+
+    .get((req, res) => {
+        var id = req.params.id
+        Post.findOne({
+            where: { id: id}
+        }).then(post => {
+            post ? res.json(post) : res.status(404).send("No matching post found");
+        })
+    });
+
 router.route('/list')
 
     .get((req, res) => {
         Post.findAll()
-            .then((posts) =>
-                res.json(posts))
+            .then(posts => res.json(posts))
     });
 
 var createPost = (title, content) => {
