@@ -3,7 +3,7 @@ module.exports = () => {
     const bodyParser = require('body-parser');
     const app = express();
 
-    app.use(bodyParser.urlencoded({extended: false}));
+    app.use(bodyParser.json({extended: false}));
     return app;
 }
 
