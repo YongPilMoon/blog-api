@@ -8,13 +8,15 @@ var router = express.Router();
 router.route('/')
 
     .post((req, res) => {
-        var title = req.body.title;
-        var content = req.body.content;
+        const title = req.body.title;
+        const content = req.body.content;
+        const introduction = req.body.introduction;
 
         sequelize.sync()
             .then(() => Post.create({
                 title: title,
-                content: content
+                content: content,
+                introduction: introduction
             }))
             .then(rst => {
                 return res.send(rst.dataValues);

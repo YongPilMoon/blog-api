@@ -1,6 +1,8 @@
+var config = require("./env/" + (process.env.NODE_ENV || "development") + ".js");
+
 const Sequelize = require('sequelize');
-var sequelize = new Sequelize('blog', 'root', '', {
-    host: 'localhost',
+var sequelize = new Sequelize('blog', config.db.host, config.db.password, {
+    host: config.db.host,
     dialect: 'mysql',
     pool: {
         max: 10,

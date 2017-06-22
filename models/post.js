@@ -8,6 +8,10 @@ const Post = sequelize.define('post', {
     content: {
         type: Sequelize.STRING,
         field: 'content'
+    },
+    introduction: {
+        type: Sequelize.STRING,
+        field: 'introduction'
     }
 }, {
     freezeTableName: true
