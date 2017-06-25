@@ -1,7 +1,7 @@
 var config = require("./env/" + (process.env.NODE_ENV || "development") + ".js");
 
 const Sequelize = require('sequelize');
-var sequelize = new Sequelize('blog', config.db.host, config.db.password, {
+var sequelize = new Sequelize('blog', config.db.user, config.db.password, {
     host: config.db.host,
     dialect: 'mysql',
     pool: {
