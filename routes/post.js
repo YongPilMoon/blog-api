@@ -18,9 +18,7 @@ router.route('/')
                 content: content,
                 introduction: introduction
             }))
-            .then(rst => {
-                return res.send(rst.dataValues);
-            })
+            .then(rst => res.send(rst.dataValues))
     });
 
 router.route('/list')
@@ -39,6 +37,39 @@ router.route('/:id')
         }).then(post => {
             post ? res.json(post) : res.status(404).send("No matching post found");
         })
+    })
+
+    .post((req, res) => {
+        const title = req.body.title;
+        const content = req.body.content;
+        const introduction = req.body.introduction;
+        var id = req.params.id;
+        Post.update({
+            title: title,
+            content: content,
+            introduction: introduction
+        },{
+            where: {
+                id: id
+            }
+        }).then(rst =>  {
+            res.send(rst)
+        })
+    })
+
+
+    .delete((req, res) => {
+        var id = req.params.id;
+        Post.destroy({
+            where: {
+                id:id
+            }
+        }).then(result => {
+            res.status(200).send(result.toString());
+            }
+        );
     });
+
+
 
 module.exports = router;
