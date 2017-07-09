@@ -1,13 +1,14 @@
 var express = require('express');
 var sequelize = require('../config/db');
 var Post = require('../models/post');
+const authMiddleware = require('../middlewares/auth');
 
 var router = express.Router();
 
 
 router.route('/')
 
-    .post((req, res) => {
+    .post(authMiddleware, (req, res) => {
         const title = req.body.title;
         const content = req.body.content;
         const introduction = req.body.introduction;
@@ -31,13 +32,13 @@ router.route('/list')
 router.route('/:id')
 
     .get((req, res) => {
-        var id = req.params.id;
-        Post.findOne({
-            where: { id: id}
-        }).then(post => {
-            post ? res.json(post) : res.status(404).send("No matching post found");
-        })
+    var id = req.params.id;
+    Post.findOne({
+        where: { id: id}
+    }).then(post => {
+        post ? res.json(post) : res.status(404).send("No matching post found");
     })
+})
 
     .post((req, res) => {
         const title = req.body.title;
