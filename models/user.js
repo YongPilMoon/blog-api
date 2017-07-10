@@ -27,7 +27,6 @@ User.prototype.verify = function (password) {
         .update(password)
         .digest('base64');
 
-    console.log("encrypted: ", encrypted);
     return this.password === encrypted
 };
 
