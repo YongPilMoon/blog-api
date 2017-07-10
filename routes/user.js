@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 var sequelize = require('../config/db');
 var User = require('../models/user');
 var router = express.Router();
-
+const crypto = require('crypto');
 
 router.route('/login')
 
@@ -58,8 +58,7 @@ router.route('/login')
 
         User.findOne({
             where: {
-                username: username,
-                password: password
+                username: username
             }
         })
             .then(check)
@@ -72,11 +71,14 @@ router.route('/signup')
     .post((req, res) => {
         const username = req.body.username;
         const password = req.body.password;
+        const encrypted = crypto.createHmac('sha1', config.secret)
+            .update(password)
+            .digest('base64');
 
         sequelize.sync()
             .then(() => User.create({
                 username: username,
-                password: password
+                password: encrypted
             }))
             .then(rst => res.send(rst.dataValues))
     });

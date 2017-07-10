@@ -1,5 +1,9 @@
 var sequelize = require('../config/db');
 const Sequelize = require('sequelize');
+const crypto = require('crypto');
+var env       = process.env.NODE_ENV || 'development';
+var config    = require(__dirname + '/../config/config.json')[env];
+
 const User = sequelize.define('user', {
     username: {
         type: Sequelize.STRING,
@@ -19,7 +23,12 @@ const User = sequelize.define('user', {
 });
 
 User.prototype.verify = function (password) {
-    return this.password === password
+    const encrypted = crypto.createHmac('sha1', config.secret)
+        .update(password)
+        .digest('base64');
+
+    console.log("encrypted: ", encrypted);
+    return this.password === encrypted
 };
 
 module.exports = User;
