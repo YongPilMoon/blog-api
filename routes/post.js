@@ -1,8 +1,6 @@
 var express = require('express');
-var sequelize = require('../config/db');
-var Post = require('../models/post');
+var {Post} = require('../models');
 const authMiddleware = require('../middlewares/auth');
-
 var router = express.Router();
 
 
@@ -13,13 +11,11 @@ router.route('/')
         const content = req.body.content;
         const introduction = req.body.introduction;
 
-        sequelize.sync()
-            .then(() => Post.create({
-                title: title,
-                content: content,
-                introduction: introduction
-            }))
-            .then(rst => res.send(rst.dataValues))
+        Post.create({
+            title: title,
+            content: content,
+            introduction: introduction
+        }).then(rst => res.send(rst.dataValues))
     });
 
 router.route('/list')

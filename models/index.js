@@ -11,7 +11,15 @@ var db        = {};
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable]);
 } else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+  var sequelize = new Sequelize(config.database, config.username, config.password, {
+      host: config.host,
+      dialect: 'mysql',
+      pool: {
+          max: 10,
+          min: 0,
+          idle: 10000
+      }
+  });
 }
 
 fs

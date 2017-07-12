@@ -1,33 +1,37 @@
-var sequelize = require('../config/db');
-const Sequelize = require('sequelize');
 const crypto = require('crypto');
-var env       = process.env.NODE_ENV || 'development';
+var env       = process.env.NODE_ENV;
 var config    = require(__dirname + '/../config/config.json')[env];
 
-const User = sequelize.define('user', {
-    username: {
-        type: Sequelize.STRING,
-        field: 'title'
-    },
-    password: {
-        type: Sequelize.STRING,
-        field: 'password'
-    },
-    admin: {
-        type: Sequelize.BOOLEAN,
-        field: 'admin',
-        defaultValue: false
-    }
-}, {
-    freezeTableName: true
-});
+module.exports = function(sequelize, DataTypes){
 
-User.prototype.verify = function (password) {
-    const encrypted = crypto.createHmac('sha1', config.secret)
-        .update(password)
-        .digest('base64');
+    const User = sequelize.define('User', {
+        username: {
+            type: DataTypes.STRING,
+            field: 'title'
+        },
+        password: {
+            type: DataTypes.STRING,
+            field: 'password'
+        },
+        admin: {
+            type: DataTypes.BOOLEAN,
+            field: 'admin',
+            defaultValue: false
+        }
+    }, {
+        freezeTableName: true
+    });
 
-    return this.password === encrypted
+    User.prototype.verify = function (password) {
+        const encrypted = crypto.createHmac('sha1', config.secret)
+            .update(password)
+            .digest('base64');
+
+        return this.password === encrypted
+    };
+
+    return User;
 };
 
-module.exports = User;
+
+

@@ -1,9 +1,8 @@
-var env       = process.env.NODE_ENV || 'development';
+var env       = process.env.NODE_ENV;
 var config    = require(__dirname + '/../config/config.json')[env];
 var express = require('express');
 var jwt = require('jsonwebtoken');
-var sequelize = require('../config/db');
-var User = require('../models/user');
+var {User} = require('../models');
 var router = express.Router();
 const crypto = require('crypto');
 
@@ -75,11 +74,10 @@ router.route('/signup')
             .update(password)
             .digest('base64');
 
-        sequelize.sync()
-            .then(() => User.create({
+            User.create({
                 username: username,
                 password: encrypted
-            }))
+            })
             .then(rst => res.send(rst.dataValues))
     });
 
