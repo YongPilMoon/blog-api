@@ -2,5 +2,4 @@ node_modules/
 server.log
 .idea/
 npm-debug.log
-config/env/production.js
 config/config.json
